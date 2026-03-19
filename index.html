@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baratam Nikhil · Data Science Portfolio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Skip to content (Accessibility) -->
+<a href="#main-content" id="skip-to-content">Skip to content</a>
+
+<!-- Toast notification container -->
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<!-- Back to top — advanced scroll widget -->
+<div id="scroll-widget" aria-label="Scroll controls" role="complementary">
+  <!-- Progress ring SVG -->
+  <svg id="scroll-ring-svg" viewBox="0 0 52 52" aria-hidden="true">
+    <defs>
+      <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#A78BFA"/>
+        <stop offset="50%" stop-color="#E879F9"/>
+        <stop offset="100%" stop-color="#FBBF24"/>
+      </linearGradient>
+    </defs>
+    <circle class="ring-track" cx="26" cy="26" r="22"/>
+    <circle id="ring-fill" class="ring-fill" cx="26" cy="26" r="22"/>
+  </svg>
+  <!-- Percentage label -->
+  <span id="scroll-pct" aria-live="polite">0%</span>
+  <!-- Up arrow -->
+  <button id="back-to-top" aria-label="Back to top (Press T)" title="Back to top • Press T">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <!-- Tooltip -->
+  <div class="scroll-tooltip">Back to top<span class="kbd-hint">T</span></div>
+</div>
+
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<div class="app-container">
+
+  <!-- ===== TOP NAVBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="banner">
+
+    <!-- Brand / Logo -->
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar" aria-hidden="true"><img src="assets/nikhil1122.jpg" alt="Nikhil" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
+      <div class="sidebar-info">
+        <div class="sidebar-name">B. Nikhil</div>
+        <div class="sidebar-title">data.scientist()</div>
+      </div>
+    </div>
+
+    <!-- Nav links (desktop) -->
+    <div class="sidebar-nav">
+      <nav role="navigation" aria-label="Main navigation">
+        <div id="nav-pill" aria-hidden="true"></div>
+        <a href="#" class="nav-link active" data-page="Home" aria-current="page">
+          <span class="nav-icon-wrap" aria-hidden="true">🏠</span>
+          <span class="nav-label">Home</span>
+        </a>
+        <a href="#" class="nav-link" data-page="About" aria-current="false">
+          <span class="nav-icon-wrap" aria-hidden="true">👤</span>
+          <span class="nav-label">About</span>
+        </a>
+        <a href="#" class="nav-link" data-page="Projects" aria-current="false">
+          <span class="nav-icon-wrap" aria-hidden="true">🗂️</span>
+          <span class="nav-label">Projects</span>
+        </a>
+        <a href="#" class="nav-link" data-page="Skills" aria-current="false">
+          <span class="nav-icon-wrap" aria-hidden="true">📊</span>
+          <span class="nav-label">Skills</span>
+        </a>
+        <a href="#" class="nav-link" data-page="Resume" aria-current="false">
+          <span class="nav-icon-wrap" aria-hidden="true">📄</span>
+          <span class="nav-label">Resume</span>
+        </a>
+        <a href="#" class="nav-link" data-page="Contact" aria-current="false">
+          <span class="nav-icon-wrap" aria-hidden="true">✉️</span>
+          <span class="nav-label">Contact</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Connect buttons (desktop) -->
+    <div class="sidebar-connect">
+      <a href="https://github.com/Nikhilbaratam" target="_blank" rel="noopener" class="connect-btn" aria-label="GitHub (opens new tab)">
+        <span class="btn-icon" aria-hidden="true">⭐</span>
+        <span class="btn-text">GitHub</span>
+      </a>
+      <a href="https://linkedin.com/in/nikhil-baratam" target="_blank" rel="noopener" class="connect-btn" aria-label="LinkedIn (opens new tab)">
+        <span class="btn-icon" aria-hidden="true">💼</span>
+        <span class="btn-text">LinkedIn</span>
+      </a>
+    </div>
+
+    <!-- Theme toggle (desktop) -->
+    <button id="theme-toggle" aria-label="Switch to light mode">
+      <span class="theme-icon" aria-hidden="true">☀️</span>
+      <span class="theme-label">Light</span>
+    </button>
+
+    <!-- Hamburger (mobile) -->
+    <button id="hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+
+  </aside>
+
+  <!-- Mobile menu dropdown -->
+  <div id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <a href="#" class="mobile-nav-link active" data-page="Home"><span aria-hidden="true">🏠</span> Home</a>
+    <a href="#" class="mobile-nav-link" data-page="About"><span aria-hidden="true">👤</span> About</a>
+    <a href="#" class="mobile-nav-link" data-page="Projects"><span aria-hidden="true">🗂️</span> Projects</a>
+    <a href="#" class="mobile-nav-link" data-page="Skills"><span aria-hidden="true">📊</span> Skills</a>
+    <a href="#" class="mobile-nav-link" data-page="Resume"><span aria-hidden="true">📄</span> Resume</a>
+    <a href="#" class="mobile-nav-link" data-page="Contact"><span aria-hidden="true">✉️</span> Contact</a>
+    <div class="mobile-connect-row">
+      <a href="https://github.com/Nikhilbaratam" target="_blank" rel="noopener" class="connect-btn">⭐ GitHub</a>
+      <a href="https://linkedin.com/in/nikhil-baratam" target="_blank" rel="noopener" class="connect-btn">💼 LinkedIn</a>
+      <button class="connect-btn theme-mobile" onclick="document.getElementById('theme-toggle').click();">☀️ Theme</button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content" id="main-content" role="main" aria-label="Page content" tabindex="-1">
+
+    <!-- =============== HOME =============== -->
+    <section id="page-Home" class="page-section active">
+
+      <!-- Hero: text LEFT, avatar RIGHT -->
+      <div class="grid-1-2" style="align-items:center; margin-bottom:3rem; grid-template-columns:2fr 1fr;">
+        <div>
+          <div class="hero-eyebrow">Data Science &amp; Analytics</div>
+          <h1 class="hero-name-enhanced">Baratam<br><span>Nikhil</span></h1>
+          <div class="hero-tagline">"Turning raw data into clear, actionable insights."</div>
+          <div class="typewriter-wrap">
+            <span class="tw-prefix">$ </span><span class="tw-text" id="tw-text"></span><span class="tw-cursor"></span>
+          </div>
+          <p class="hero-bio">
+            Computer Science Engineering student at Lovely Professional University with hands-on
+            experience as an AI Learning Intern. Passionate about Data Science — building full-stack
+            systems, dashboards, and deriving actionable insights from real-world datasets.
+          </p>
+          <div style="height:1.8rem"></div>
+          <!-- Buttons: stacked differently — primary full width, then row -->
+          <div style="display:flex; flex-direction:column; gap:0.9rem; max-width:380px;">
+            <a href="#" id="cta_projects" class="btn-primary" style="text-align:center;">⚡ View My Projects</a>
+            <div style="display:flex;gap:0.9rem;">
+              <a href="#" id="cta_contact" class="btn-secondary" style="flex:1;text-align:center;">✉ Contact Me</a>
+              <a href="https://github.com/Nikhilbaratam" target="_blank" class="btn-link">⭐ GitHub →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Avatar right -->
+        <div style="display:flex;justify-content:flex-end;align-items:center;padding-top:1rem;">
+          <div class="avatar-ring">
+            <!-- Inner frame clips photo, outer ring spins freely -->
+            <div class="avatar-photo-frame">
+              <img src="assets/nikhil1122.jpg" alt="Baratam Nikhil" class="avatar-photo">
+            </div>
+            <div class="avatar-status"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">At a Glance</div>
+
+      <!-- Stat cards — 4 col -->
+      <div class="grid-4" style="margin-bottom:3rem;">
+        <div class="stat-card reveal">
+          <div class="stat-num" style="background:linear-gradient(135deg,#A78BFA,#FBBF24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">4+</div>
+          <div class="stat-lbl">Projects Completed</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-num" style="background:linear-gradient(135deg,#A78BFA,#6EE7B7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">6.40</div>
+          <div class="stat-lbl">CGPA</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-num" style="background:linear-gradient(135deg,#6EE7B7,#FBBF24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">4+</div>
+          <div class="stat-lbl">Certificates</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-num" style="background:linear-gradient(135deg,#E879F9,#FBBF24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">98%</div>
+          <div class="stat-lbl">Class X Score</div>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Featured Work</div>
+      <h2 class="section-title">Recent Projects</h2>
+
+      <div class="grid-3" style="margin-bottom:2rem;">
+        <div class="proj-card reveal" style="border-bottom:2px solid var(--violet);position:relative;">
+          <div style="position:absolute;top:0.8rem;right:0.8rem;font-family:'Fira Code',monospace;font-size:0.52rem;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.28);color:var(--violet);padding:2px 7px;border-radius:20px;letter-spacing:0.08em;">FEATURED</div>
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">📈</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Stock Buy/Sell Analyzer</div>
+          <div style="font-family:'Fira Code',monospace;font-size:0.62rem;color:var(--violet);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:0.8rem;">Machine Learning · DSA</div>
+          <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.65;flex-grow:1;margin-bottom:1rem;">Hybrid C++ DSA engine + Python Streamlit dashboard generating RSI &amp; Moving Average based Buy/Sell signals with O(n) &amp; DP algorithms.</p>
+          <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;">
+            <span class="tech-pill">C++</span><span class="tech-pill">Python</span><span class="tech-pill">Streamlit</span><span class="tech-pill">Plotly</span>
+          </div>
+          <a href="https://github.com/Nikhilbaratam/Stock-Buy-Sell-Analyzer-using-Technical-Indicators" target="_blank" rel="noopener" style="display:block;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;margin-top:auto;">⭐ View on GitHub</a>
+        </div>
+        <div class="proj-card reveal reveal-delay-1">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🏪</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Grocery Store Dashboard</div>
+          <div style="font-family:'Fira Code',monospace;font-size:0.62rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:0.8rem;">Data Visualization</div>
+          <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.65;flex-grow:1;margin-bottom:1rem;">Interactive Excel-based sales dashboard tracking revenue, product performance, outlet efficiency, and monthly trends with Pivot Tables &amp; Slicers.</p>
+          <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;">
+            <span class="tech-pill">Excel</span><span class="tech-pill">Pivot Tables</span><span class="tech-pill">Data Analysis</span>
+          </div>
+          <a href="https://github.com/Nikhilbaratam/Ganesh-Grocery-Store-analysis" target="_blank" rel="noopener" style="display:block;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;margin-top:auto;">⭐ View on GitHub</a>
+        </div>
+        <div class="proj-card reveal reveal-delay-2">
+          <div style="font-size:1.8rem;margin-bottom:0.8rem;">🐚</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Abalone Data Analysis</div>
+          <div style="font-family:'Fira Code',monospace;font-size:0.62rem;color:var(--sage);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:0.8rem;">Data Analysis</div>
+          <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.65;flex-grow:1;margin-bottom:1rem;">In-depth analysis of the Abalone dataset using pair plots, heatmaps, and box plots to reveal growth patterns and support age estimation.</p>
+          <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;">
+            <span class="tech-pill">Python</span><span class="tech-pill">Pandas</span><span class="tech-pill">Seaborn</span>
+          </div>
+          <a href="https://github.com/Nikhilbaratam/Abalone-Age-Prediction-An-Exploratory-Data-Analysis" target="_blank" rel="noopener" style="display:block;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;margin-top:auto;">⭐ View on GitHub</a>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Core Stack</div>
+      <div style="line-height:3.2;">
+        <span class="core-tag">Python</span><span class="core-tag">C++</span><span class="core-tag">React.js</span>
+        <span class="core-tag">Pandas</span><span class="core-tag">NumPy</span><span class="core-tag">Seaborn</span>
+        <span class="core-tag">Streamlit</span><span class="core-tag">Power BI</span><span class="core-tag">MySQL</span>
+        <span class="core-tag">Excel</span><span class="core-tag">Git</span><span class="core-tag">HTML/CSS</span>
+      </div>
+    </section>
+
+    <!-- =============== ABOUT =============== -->
+    <section id="page-About" class="page-section">
+      <div class="section-header-wrap">
+        <p class="section-subheader">Personal</p>
+        <h1 class="section-header">About Me</h1>
+        <div class="divider"></div>
+      </div>
+
+      <div class="bio-card reveal">
+        <!-- Opening quote -->
+        <p style="font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:400;font-style:italic;color:var(--text-primary);line-height:1.9;margin:0 0 1.2rem;">
+          "I'm a Computer Science Engineering student at Lovely Professional University with practical industry experience as an AI Learning Intern. I enjoy building data-driven systems — from full-stack fitness apps to interactive dashboards — turning complex datasets into clear, actionable insights."
+        </p>
+
+        <!-- Concise 2-para bio -->
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.85;margin:0 0 0.9rem;">
+          My curiosity for numbers grew into a hands-on skill set spanning Python, EDA, machine learning, and full-stack development. During my <strong style="color:var(--violet);">AI Learning Internship at TechSaksham</strong> I built a production-grade fitness tracker with Python &amp; React.js at 95%+ stability — real software, not just coursework. I'm equally confident writing <strong style="color:var(--amber);">C++ DSA engines</strong> for O(n) financial algorithms or crafting interactive <strong style="color:var(--amber);">Power BI dashboards</strong> for business intelligence.
+        </p>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.85;margin:0 0 1.4rem;">
+          I believe great data work is about <strong style="color:var(--sage);">clear storytelling</strong> — making insights immediately understandable to any audience, whether through a Streamlit dashboard, an Excel pivot report, or a Plotly chart. I'm actively seeking internship or entry-level roles where I can contribute to real-world data challenges and keep growing.
+        </p>
+
+        <!-- Info chips row -->
+        <div style="display:flex;gap:0.85rem;flex-wrap:wrap;align-items:center;">
+          <span style="display:flex;align-items:center;gap:5px;font-size:0.79rem;color:var(--text-muted);">📍 Phagwara, Punjab, IN</span>
+          <a href="/cdn-cgi/l/email-protection#bfd1d6d4d7d6d3dddecddecbded28a8989ffd8d2ded6d391dcd0d2" style="display:flex;align-items:center;gap:5px;font-size:0.79rem;color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--violet)'" onmouseout="this.style.color='var(--text-muted)'">✉️ <span class="__cf_email__" data-cfemail="3d5354565554515f5c4f5c495c50080b0b7d5a505c5451135e5250">[email&#160;protected]</span></a>
+          <a href="tel:+918688523829" style="display:flex;align-items:center;gap:5px;font-size:0.79rem;color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--plum)'" onmouseout="this.style.color='var(--text-muted)'">📱 +91 86885 23829</a>
+          <a href="https://linkedin.com/in/nikhil-baratam" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:5px;font-size:0.79rem;color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text-muted)'">💼 linkedin.com/in/nikhil-baratam</a>
+          <a href="https://github.com/Nikhilbaratam" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:5px;font-size:0.79rem;color:var(--text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--sage)'" onmouseout="this.style.color='var(--text-muted)'">⭐ github.com/Nikhilbaratam</a>
+          <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(110,231,183,0.08);border:1px solid rgba(110,231,183,0.22);color:var(--sage);font-size:0.72rem;padding:3px 10px;border-radius:20px;font-weight:500;">
+            <span style="width:5px;height:5px;background:var(--sage);border-radius:50%;box-shadow:0 0 6px var(--sage);display:inline-block;"></span>Open to Opportunities
+          </span>
+        </div>
+      </div>
+
+      <div class="section-eyebrow">Work Experience</div>
+      <h2 class="section-title">Internship</h2>
+      <div class="timeline-wrap" style="margin-bottom:2rem;">
+        <div class="tl-item reveal" style="border-left:3px solid var(--violet);">
+          <div class="tl-year" style="color:var(--sage);">Jan 2025 – May 2025</div>
+          <div class="tl-degree">💼 AI Learning Intern</div>
+          <div class="tl-school" style="color:var(--violet);">TechSaksham</div>
+          <div class="tl-detail" style="margin-top:0.6rem;line-height:1.8;font-size:0.8rem;color:var(--text-muted);">
+            • Architected a full-stack fitness tracking system using Python &amp; React.js for workout logging and progress monitoring<br>
+            • Established REST-based service layers with MySQL for secure, efficient data handling<br>
+            • Improved app responsiveness by refining backend workflows &amp; database queries, reducing load latency<br>
+            • Sustained 95%+ operational stability across devices and browsers<br>
+            <span style="margin-top:0.4rem;display:inline-block;font-family:'Fira Code',monospace;font-size:0.65rem;color:var(--violet);">Stack: Python · React.js · MySQL · Web Platform</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Academic Background</div>
+      <h2 class="section-title">Education</h2>
+      <div class="timeline-wrap">
+        <div class="tl-item reveal">
+          <div class="tl-year">Aug 2023 – Present</div>
+          <div class="tl-degree">🎓 B.Tech — Computer Science &amp; Engineering</div>
+          <div class="tl-school">Lovely Professional University, Phagwara, Punjab</div>
+          <div class="tl-detail">CGPA: 6.40</div>
+        </div>
+        <div class="tl-item reveal reveal-delay-1">
+          <div class="tl-year">Jun 2022 – May 2023</div>
+          <div class="tl-degree">🏫 Intermediate (Class XII)</div>
+          <div class="tl-school">Sri Viswa Junior College, Vizag, A.P.</div>
+          <div class="tl-detail">Percentage: 73.3%</div>
+        </div>
+        <div class="tl-item reveal reveal-delay-2">
+          <div class="tl-year">Jun 2020 – May 2021</div>
+          <div class="tl-degree">🏆 Matriculation (Class X)</div>
+          <div class="tl-school">Sri Chaitanya EM School, Vizag, A.P.</div>
+          <div class="tl-detail">Percentage: 98%</div>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">What Drives Me</div>
+      <h2 class="section-title">Career Interests</h2>
+      <div class="grid-3" style="grid-template-columns:repeat(5,1fr);">
+        <div class="interest-card reveal"><div style="font-size:1.8rem;margin-bottom:0.6rem;">🔍</div><div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;">Data Analytics</div><div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;">EDA, business intelligence &amp; insight generation</div></div>
+        <div class="interest-card reveal reveal-delay-1"><div style="font-size:1.8rem;margin-bottom:0.6rem;">📊</div><div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;">Visualization</div><div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;">Dashboards &amp; storytelling with Power BI</div></div>
+        <div class="interest-card reveal reveal-delay-2"><div style="font-size:1.8rem;margin-bottom:0.6rem;">🗄️</div><div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;">Database &amp; SQL</div><div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;">Querying &amp; analysing relational data</div></div>
+        <div class="interest-card reveal reveal-delay-3"><div style="font-size:1.8rem;margin-bottom:0.6rem;">🤖</div><div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;">Machine Learning</div><div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;">Applying ML to real-world prediction problems</div></div>
+        <div class="interest-card reveal reveal-delay-4"><div style="font-size:1.8rem;margin-bottom:0.6rem;">🌐</div><div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:0.4rem;">Web Technologies</div><div style="font-size:0.74rem;color:var(--text-muted);line-height:1.6;">Building clean interfaces with HTML &amp; CSS</div></div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Technical Arsenal</div>
+      <h2 class="section-title">Tools &amp; Technologies</h2>
+      <div style="line-height:3.2;">
+        <span class="tool-badge">🐍 Python</span><span class="tool-badge">⚙️ C++</span><span class="tool-badge">🗄️ MySQL</span><span class="tool-badge">📊 Power BI</span><span class="tool-badge">📗 Excel</span><span class="tool-badge">⚛️ React.js</span><span class="tool-badge">🌊 Streamlit</span><span class="tool-badge">📉 Plotly</span><span class="tool-badge">🐙 Git/GitHub</span><span class="tool-badge">📓 Jupyter</span><span class="tool-badge">🐼 Pandas</span><span class="tool-badge">📐 NumPy</span><span class="tool-badge">🎨 Seaborn</span><span class="tool-badge">🧠 TensorFlow</span><span class="tool-badge">🌐 HTML/CSS</span><span class="tool-badge">☕ Java</span><span class="tool-badge">🖥️ VS Code</span>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Credentials</div>
+      <h2 class="section-title">Certificates</h2>
+      <div class="grid-2-even">
+        <div class="cert-card reveal"><div style="font-size:2rem;flex-shrink:0;">☁️</div><div style="flex:1;"><div style="font-family:'Playfair Display',serif;font-size:0.93rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Cloud Computing</div><div style="font-size:0.8rem;color:var(--amber);margin-bottom:0.2rem;">NPTEL</div><div class="cert-badge">🗓 2025</div><a href="https://drive.google.com/file/d/1P9wqeNEYYO3Sf3YCm0M6CLpcI3Q1pDhI/view?usp=sharing" target="_blank" rel="noopener" class="view-cert-btn">📄 View Certificate</a></div></div>
+        <div class="cert-card reveal reveal-delay-1"><div style="font-size:2rem;flex-shrink:0;">📊</div><div style="flex:1;"><div style="font-family:'Playfair Display',serif;font-size:0.93rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Data Visualization: Business Analytics Simulation</div><div style="font-size:0.8rem;color:var(--amber);margin-bottom:0.2rem;">Tata Group</div><div class="cert-badge">🗓 Oct 2025</div><a href="https://drive.google.com/file/d/1OCMQuJNR7phd_WUxi4wuffjRPi4VH4uc/view" target="_blank" rel="noopener" class="view-cert-btn">📄 View Certificate</a></div></div>
+        <div class="cert-card reveal reveal-delay-2"><div style="font-size:2rem;flex-shrink:0;">🌐</div><div style="flex:1;"><div style="font-family:'Playfair Display',serif;font-size:0.93rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Web Design</div><div style="font-size:0.8rem;color:var(--amber);margin-bottom:0.2rem;">Edyoda</div><div class="cert-badge">🗓 Mar 2024</div><a href="https://classroom.edyoda.com/public-certificate/nikhilbaratam566/FEMD240224" target="_blank" rel="noopener" class="view-cert-btn">📄 View Certificate</a></div></div>
+        <div class="cert-card reveal reveal-delay-3"><div style="font-size:2rem;flex-shrink:0;">💻</div><div style="flex:1;"><div style="font-family:'Playfair Display',serif;font-size:0.93rem;font-weight:700;color:var(--text-primary);margin-bottom:0.2rem;">Responsive Web Design</div><div style="font-size:0.8rem;color:var(--amber);margin-bottom:0.2rem;">freeCodeCamp</div><div class="cert-badge">🗓 Dec 2023</div><a href="https://www.freecodecamp.org/certification/nikhilbaratam/responsive-web-design" target="_blank" rel="noopener" class="view-cert-btn">📄 View Certificate</a></div></div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Milestones</div>
+      <h2 class="section-title">Achievements</h2>
+      <div class="ach-item reveal">
+        <div class="ach-icon-wrap">💼</div>
+        <div><div style="font-family:'Fira Code',monospace;font-size:0.68rem;color:var(--amber);margin-bottom:0.3rem;letter-spacing:0.08em;">Jan 2025 – May 2025</div><div style="font-family:'Playfair Display',serif;font-size:0.96rem;font-weight:700;color:var(--text-primary);margin-bottom:0.3rem;">AI Learning Intern — TechSaksham</div><div style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">Built a full-stack fitness tracking system with Python &amp; React.js; maintained 95%+ operational stability across devices.</div></div>
+      </div>
+      <div class="ach-item reveal reveal-delay-1">
+        <div class="ach-icon-wrap">🎓</div>
+        <div><div style="font-family:'Fira Code',monospace;font-size:0.68rem;color:var(--amber);margin-bottom:0.3rem;letter-spacing:0.08em;">Jun 2025 – Jul 2025</div><div style="font-family:'Playfair Display',serif;font-size:0.96rem;font-weight:700;color:var(--text-primary);margin-bottom:0.3rem;">LPU Data Science Hands-On Training</div><div style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">Completed practical training in Excel, Python, Power BI &amp; SQL; capstone Avocado Ripeness Analysis achieved 90% analytical accuracy.</div></div>
+      </div>
+      <div class="ach-item reveal reveal-delay-2">
+        <div class="ach-icon-wrap">🏅</div>
+        <div><div style="font-family:'Fira Code',monospace;font-size:0.68rem;color:var(--amber);margin-bottom:0.3rem;letter-spacing:0.08em;">Jan 2024</div><div style="font-family:'Playfair Display',serif;font-size:0.96rem;font-weight:700;color:var(--text-primary);margin-bottom:0.3rem;">Webka Hackathon — Final Round</div><div style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;">Selected for the final round for demonstrating innovative project design and strong technical implementation.</div></div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="beyond-card reveal">
+        <div class="section-eyebrow" style="margin-bottom:0.6rem;">Beyond the Data</div>
+        <p style="color:var(--text-secondary);line-height:1.9;font-size:0.93rem;margin:0;">When I'm not wrangling datasets, I explore competitive programming, contribute to open-source projects, and stay current with AI and full-stack developments. My internship experience taught me that real-world adaptability matters as much as technical depth — and I bring both.</p>
+      </div>
+    </section>
+
+    <!-- =============== PROJECTS =============== -->
+    <section id="page-Projects" class="page-section">
+      <div class="section-header-wrap">
+        <p class="section-subheader">Portfolio</p>
+        <h1 class="section-header">Projects</h1>
+        <div class="divider"></div>
+      </div>
+
+      <div class="filter-row">
+        <select id="project_filter" class="filter-select">
+          <option value="All">All Projects</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="Data Visualization">Data Visualization</option>
+          <option value="Data Analysis">Data Analysis</option>
+        </select>
+        <span id="project_count" class="count-badge">📁 4 projects</span>
+      </div>
+      <div class="grad-divider" style="margin:0.5rem 0 1.8rem;"></div>
+
+      <div class="grid-3" id="projects-container">
+
+        <!-- Stock Analyzer — Most advanced / most recent -->
+        <div class="proj-card-container reveal" data-category="Machine Learning">
+          <div class="proj-card-pro" style="border-top:2px solid var(--violet);">
+            <div class="proj-icon-wrap" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.22);">📈</div>
+            <div class="cat-badge" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.22);color:var(--violet);"><span style="width:4px;height:4px;background:var(--violet);border-radius:50%;display:inline-block;"></span>Machine Learning</div>
+            <div class="proj-title">Stock Buy/Sell Analyzer</div>
+            <div class="proj-desc-pro">High-performance hybrid web app using a C++ DSA engine for O(n) profit algorithms (Single, Multiple &amp; K-transaction DP) with a Python Streamlit dashboard generating RSI/MA-based Buy/Sell signals.</div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--violet);font-size:0.68rem;margin-top:1px;">✦</span><span>C++ O(n) DSA engine + Streamlit frontend — Team: Signal Analysts</span></div></div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--violet);font-size:0.68rem;margin-top:1px;">✦</span><span>Multi-factor RSI &lt; 40 + MA crossover Buy/Sell signal logic</span></div></div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--violet);font-size:0.68rem;margin-top:1px;">✦</span><span>K-transaction DP reduces brute-force O(n²) to O(nk)</span></div></div>
+            <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;"><span class="tech-pill-pro">C++</span><span class="tech-pill-pro">Python</span><span class="tech-pill-pro">Streamlit</span><span class="tech-pill-pro">Pandas</span><span class="tech-pill-pro">Plotly</span></div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);margin-bottom:0.7rem;">📅 Team Project · Signal Analysts</div>
+            <div style="display:flex;gap:0.6rem;margin-top:auto;">
+              <a href="https://github.com/Nikhilbaratam/Stock-Buy-Sell-Analyzer-using-Technical-Indicators" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;font-weight:500;">⭐ GitHub</a>
+              <div style="flex:1;text-align:center;padding:0.5rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;color:rgba(255,255,255,0.15);font-size:0.76rem;cursor:not-allowed;">No Demo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feb 2025 -->
+        <div class="proj-card-container reveal reveal-delay-1" data-category="Data Visualization">
+          <div class="proj-card-pro" style="border-top:2px solid var(--amber);">
+            <div class="proj-icon-wrap" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.22);">🏪</div>
+            <div class="cat-badge" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.22);color:var(--amber);"><span style="width:4px;height:4px;background:var(--amber);border-radius:50%;display:inline-block;"></span>Data Visualization</div>
+            <div class="proj-title">Grocery Store Dashboard</div>
+            <div class="proj-desc-pro">Interactive Excel-based sales dashboard tracking revenue, product performance, outlet efficiency, and monthly trends using Pivot Tables, Slicers, Charts, and Conditional Formatting.</div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--amber);font-size:0.68rem;margin-top:1px;">✦</span><span>85% reporting accuracy via automated analysis &amp; drill-down</span></div></div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--amber);font-size:0.68rem;margin-top:1px;">✦</span><span>Sales distribution by category, outlet size &amp; geography</span></div></div>
+            <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;"><span class="tech-pill-pro">Microsoft Excel</span><span class="tech-pill-pro">Pivot Tables</span><span class="tech-pill-pro">Slicers</span></div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);margin-bottom:0.7rem;">📅 Feb 2025 – May 2025</div>
+            <div style="display:flex;gap:0.6rem;margin-top:auto;">
+              <a href="https://github.com/Nikhilbaratam/Ganesh-Grocery-Store-analysis" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;font-weight:500;">⭐ GitHub</a>
+              <div style="flex:1;text-align:center;padding:0.5rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;color:rgba(255,255,255,0.15);font-size:0.76rem;cursor:not-allowed;">No Demo</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-card-container reveal reveal-delay-2" data-category="Data Analysis">
+          <div class="proj-card-pro" style="border-top:2px solid var(--sage);">
+            <div class="proj-icon-wrap" style="background:rgba(110,231,183,0.1);border:1px solid rgba(110,231,183,0.22);">🐚</div>
+            <div class="cat-badge" style="background:rgba(110,231,183,0.1);border:1px solid rgba(110,231,183,0.22);color:var(--sage);"><span style="width:4px;height:4px;background:var(--sage);border-radius:50%;display:inline-block;"></span>Data Analysis</div>
+            <div class="proj-title">Abalone Data Analysis</div>
+            <div class="proj-desc-pro">In-depth analysis of the Abalone dataset to examine relationships between shell measurements and age, using pair plots, heatmaps, and box plots for pattern visualization.</div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--sage);font-size:0.68rem;margin-top:1px;">✦</span><span>80% analytical accuracy supporting age estimation &amp; predictive modelling</span></div></div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--sage);font-size:0.68rem;margin-top:1px;">✦</span><span>Standardized raw data with Pandas &amp; NumPy preprocessing pipeline</span></div></div>
+            <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;"><span class="tech-pill-pro">Python</span><span class="tech-pill-pro">Pandas</span><span class="tech-pill-pro">Seaborn</span><span class="tech-pill-pro">Matplotlib</span></div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);margin-bottom:0.7rem;">📅 Feb 2025 – May 2025</div>
+            <div style="display:flex;gap:0.6rem;margin-top:auto;">
+              <a href="https://github.com/Nikhilbaratam/Abalone-Age-Prediction-An-Exploratory-Data-Analysis" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;font-weight:500;">⭐ GitHub</a>
+              <div style="flex:1;text-align:center;padding:0.5rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;color:rgba(255,255,255,0.15);font-size:0.76rem;cursor:not-allowed;">No Demo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LPU Training Capstone -->
+        <div class="proj-card-container reveal" data-category="Data Analysis">
+          <div class="proj-card-pro" style="border-top:2px solid var(--plum);">
+            <div class="proj-icon-wrap" style="background:rgba(232,121,249,0.1);border:1px solid rgba(232,121,249,0.22);">🥑</div>
+            <div class="cat-badge" style="background:rgba(232,121,249,0.1);border:1px solid rgba(232,121,249,0.22);color:var(--plum);"><span style="width:4px;height:4px;background:var(--plum);border-radius:50%;display:inline-block;"></span>Data Analysis</div>
+            <div class="proj-title">Avocado Ripeness Analysis</div>
+            <div class="proj-desc-pro">LPU Data Science training capstone — EDA on avocado market &amp; quality data, uncovering seasonal and regional trends with an interactive Power BI dashboard.</div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--plum);font-size:0.68rem;margin-top:1px;">✦</span><span>90% analytical accuracy in insight generation</span></div></div>
+            <div style="margin-bottom:0.7rem;"><div class="highlight-row"><span style="color:var(--plum);font-size:0.68rem;margin-top:1px;">✦</span><span>Interactive dashboard filterable by region &amp; time period</span></div></div>
+            <div style="margin-bottom:0.9rem;display:flex;flex-wrap:wrap;"><span class="tech-pill-pro">Python</span><span class="tech-pill-pro">Power BI</span><span class="tech-pill-pro">Pandas</span><span class="tech-pill-pro">EDA</span></div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;color:var(--text-muted);margin-bottom:0.7rem;">📅 Jun 2025 – Jul 2025</div>
+            <div style="display:flex;gap:0.6rem;margin-top:auto;">
+              <a href="https://github.com/Nikhilbaratam/Avocado-Ripeness-Analysis-Dashbord" target="_blank" rel="noopener" style="flex:1;text-align:center;padding:0.5rem;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.22);border-radius:8px;color:var(--violet);text-decoration:none;font-size:0.76rem;font-weight:500;">⭐ GitHub</a>
+              <div style="flex:1;text-align:center;padding:0.5rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:8px;color:rgba(255,255,255,0.15);font-size:0.76rem;cursor:not-allowed;">No Demo</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =============== SKILLS =============== -->
+    <section id="page-Skills" class="page-section">
+      <div class="section-header-wrap">
+        <p class="section-subheader">Proficiency</p>
+        <h1 class="section-header">Skills Dashboard</h1>
+        <div class="divider"></div>
+      </div>
+
+      <div style="background:rgba(167,139,250,0.04);backdrop-filter:blur(10px);border:1px solid rgba(167,139,250,0.1);border-left:2px solid var(--violet);border-radius:0 10px 10px 0;padding:0.9rem 1.3rem;margin-bottom:1.8rem;">
+        <p style="font-size:0.83rem;color:var(--text-muted);margin:0;line-height:1.7;">Proficiency ratings are <strong style="color:var(--text-secondary);">self-assessed</strong> based on project experience, coursework, and hands-on practice.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="overview-card reveal" style="border-top:2px solid var(--violet);"><div style="font-size:1.5rem;margin-bottom:0.4rem;">🐍</div><div class="overview-num" style="color:var(--violet);">73%</div><div class="overview-label">Programming</div></div>
+        <div class="overview-card reveal reveal-delay-1" style="border-top:2px solid var(--amber);"><div style="font-size:1.5rem;margin-bottom:0.4rem;">📊</div><div class="overview-num" style="color:var(--amber);">85%</div><div class="overview-label">Data Analysis</div></div>
+        <div class="overview-card reveal reveal-delay-2" style="border-top:2px solid var(--sage);"><div style="font-size:1.5rem;margin-bottom:0.4rem;">🛠️</div><div class="overview-num" style="color:var(--sage);">83%</div><div class="overview-label">Tools &amp; Platforms</div></div>
+        <div class="overview-card reveal reveal-delay-3" style="border-top:2px solid var(--plum);"><div style="font-size:1.5rem;margin-bottom:0.4rem;">🎨</div><div class="overview-num" style="color:var(--plum);">83%</div><div class="overview-label">Visualization</div></div>
+      </div>
+
+      <div class="grad-divider"></div>
+
+      <div class="grid-2-even">
+        <div class="skill-card reveal">
+          <div class="skill-card-header"><div class="skill-icon-box" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.22);">🐍</div><div><div class="skill-cat-name">Programming</div><div class="skill-cat-sub">7 skills tracked</div></div><div class="skill-avg-badge" style="color:var(--violet);">71%</div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Python</span><div class="skill-row-right"><span class="skill-pct">85%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:linear-gradient(90deg,var(--violet-dim),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">C</span><div class="skill-row-right"><span class="skill-pct">75%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%;background:linear-gradient(90deg,var(--violet-dim),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">C++</span><div class="skill-row-right"><span class="skill-pct">72%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Proficient</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:72%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">HTML/CSS</span><div class="skill-row-right"><span class="skill-pct">70%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Proficient</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Java</span><div class="skill-row-right"><span class="skill-pct">65%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Proficient</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">React.js</span><div class="skill-row-right"><span class="skill-pct">70%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Proficient</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">TensorFlow</span><div class="skill-row-right"><span class="skill-pct">60%</span><span class="skill-level-badge" style="background:rgba(232,121,249,0.12);border:1px solid rgba(232,121,249,0.25);color:var(--plum);">Learning</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card-header"><div class="skill-icon-box" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.22);">📊</div><div><div class="skill-cat-name">Data Analysis</div><div class="skill-cat-sub">5 skills tracked</div></div><div class="skill-avg-badge" style="color:var(--amber);">85%</div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Data Cleaning</span><div class="skill-row-right"><span class="skill-pct">90%</span><span class="skill-level-badge" style="background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.25);color:var(--sage);">Expert</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%;background:linear-gradient(90deg,var(--amber),var(--sage));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Pandas</span><div class="skill-row-right"><span class="skill-pct">88%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">EDA</span><div class="skill-row-right"><span class="skill-pct">87%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:87%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">NumPy</span><div class="skill-row-right"><span class="skill-pct">85%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Statistical Analysis</span><div class="skill-row-right"><span class="skill-pct">75%</span><span class="skill-level-badge" style="background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);color:var(--amber);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));"></div></div></div>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-card-header"><div class="skill-icon-box" style="background:rgba(110,231,183,0.1);border:1px solid rgba(110,231,183,0.22);">🛠️</div><div><div class="skill-cat-name">Tools &amp; Platforms</div><div class="skill-cat-sub">5 skills tracked</div></div><div class="skill-avg-badge" style="color:var(--sage);">83%</div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Microsoft Excel</span><div class="skill-row-right"><span class="skill-pct">90%</span><span class="skill-level-badge" style="background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.25);color:var(--sage);">Expert</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%;background:linear-gradient(90deg,var(--sage),var(--sage));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Jupyter Notebook</span><div class="skill-row-right"><span class="skill-pct">85%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:linear-gradient(90deg,var(--sage),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Power BI</span><div class="skill-row-right"><span class="skill-pct">82%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%;background:linear-gradient(90deg,var(--sage),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">MySQL</span><div class="skill-row-right"><span class="skill-pct">80%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:linear-gradient(90deg,var(--sage),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Git / GitHub</span><div class="skill-row-right"><span class="skill-pct">78%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%;background:linear-gradient(90deg,var(--sage),var(--violet));"></div></div></div>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card-header"><div class="skill-icon-box" style="background:rgba(232,121,249,0.1);border:1px solid rgba(232,121,249,0.22);">🎨</div><div><div class="skill-cat-name">Visualization</div><div class="skill-cat-sub">5 skills tracked</div></div><div class="skill-avg-badge" style="color:var(--plum);">83%</div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Excel Charts</span><div class="skill-row-right"><span class="skill-pct">88%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">PivotTables</span><div class="skill-row-right"><span class="skill-pct">85%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Matplotlib</span><div class="skill-row-right"><span class="skill-pct">82%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Power BI Dashboards</span><div class="skill-row-right"><span class="skill-pct">82%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+          <div class="skill-row"><div class="skill-row-top"><span class="skill-row-name">Seaborn</span><div class="skill-row-right"><span class="skill-pct">80%</span><span class="skill-level-badge" style="background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25);color:var(--violet);">Advanced</span></div></div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:linear-gradient(90deg,var(--plum),var(--violet));"></div></div></div>
+        </div>
+      </div>
+
+      <div class="grad-divider"></div>
+      <p style="font-family:'Fira Code',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(167,139,250,0.45);margin-bottom:0.8rem;">// Proficiency Legend</p>
+      <div style="display:flex;gap:1.8rem;flex-wrap:wrap;">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--sage);box-shadow:0 0 6px var(--sage);"></div>90–100 · Expert</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--violet);box-shadow:0 0 6px var(--violet);"></div>75–89 · Advanced</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber);box-shadow:0 0 6px var(--amber);"></div>60–74 · Proficient</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--plum);box-shadow:0 0 6px var(--plum);"></div>&lt;60 · Learning</div>
+      </div>
+    </section>
+
+    <!-- =============== RESUME =============== -->
+    <section id="page-Resume" class="page-section">
+      <div class="section-header-wrap">
+        <p class="section-subheader">Curriculum Vitae</p>
+        <h1 class="section-header">Resume</h1>
+        <div class="divider"></div>
+      </div>
+
+      <div class="resume-info-bar reveal">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <div class="resume-icon-box">📄</div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:0.98rem;font-weight:700;color:var(--text-primary);">Baratam Nikhil — Resume</div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.7rem;color:var(--text-muted);margin-top:2px;">Data Science &amp; Analytics · Updated 2025</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="resume-status-dot"></span>
+          <span style="font-size:0.76rem;color:var(--sage);font-weight:500;">Available for Opportunities</span>
+        </div>
+      </div>
+
+      <!-- Download button — centered, full width -->
+      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+        <a href="assets/baratam_nikhil_resume.pdf" download class="btn-primary" style="width:55%;text-align:center;">📥 Download Resume PDF</a>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="resume-viewer">
+        <img src="assets/baratam_nikhil_resume_page-0001.jpg" style="width:100%;max-width:860px;box-shadow:0 10px 40px rgba(0,0,0,0.5);border-radius:8px;" alt="Baratam Nikhil Resume Preview">
+      </div>
+      <div class="grad-divider"></div>
+
+      <div class="download-strip reveal">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--text-primary);margin-bottom:0.3rem;">📥 Save a Copy</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;">Download the full PDF for offline access or to share with recruiters.</div>
+        </div>
+        <a href="assets/baratam_nikhil_resume.pdf" download class="btn-primary" style="flex:1;text-align:center;">📥 Download Resume PDF</a>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;">
+        <a href="/cdn-cgi/l/email-protection#741a1d1f1c1d1816150615001519414242341319151d185a171b19" class="contact-chip">✉️ <span class="__cf_email__" data-cfemail="137d7a787b7a7f7172617267727e26252553747e727a7f3d707c7e">[email&#160;protected]</span></a>
+        <a href="https://linkedin.com/in/nikhil-baratam" target="_blank" class="contact-chip">💼 LinkedIn Profile</a>
+        <a href="https://github.com/Nikhilbaratam" target="_blank" class="contact-chip">⭐ GitHub</a>
+      </div>
+    </section>
+
+    <!-- =============== CONTACT =============== -->
+    <section id="page-Contact" class="page-section">
+      <div class="section-header-wrap">
+        <p class="section-subheader">Get in Touch</p>
+        <h1 class="section-header">Contact</h1>
+        <div class="divider"></div>
+      </div>
+
+      <p style="color:var(--text-muted);font-size:0.92rem;line-height:1.8;max-width:560px;margin-bottom:2rem;">
+        Always open to discussing data science opportunities, research collaborations, or interesting datasets.
+      </p>
+
+      <!-- Contact cards — left-aligned, 4 col -->
+      <div class="grid-4" style="margin-bottom:2rem;">
+        <a href="/cdn-cgi/l/email-protection#355b5c5e5d5c5957544754415458000303755258545c591b565a58" style="text-decoration:none;display:block;">
+          <div class="contact-card-pro reveal" style="border-top:2px solid var(--violet);">
+            <div class="contact-icon-wrap" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.22);">✉️</div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:var(--violet);margin-bottom:0.4rem;">Email</div>
+            <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;word-break:break-word;"><span class="__cf_email__" data-cfemail="8ce2e5e7e4e5e0eeedfeedf8ede1b9babaccebe1ede5e0a2efe3e1">[email&#160;protected]</span></div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/nikhil-baratam" target="_blank" style="text-decoration:none;display:block;">
+          <div class="contact-card-pro reveal reveal-delay-1" style="border-top:2px solid var(--amber);">
+            <div class="contact-icon-wrap" style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.22);">💼</div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:var(--amber);margin-bottom:0.4rem;">LinkedIn</div>
+            <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">linkedin.com/in/nikhil-baratam</div>
+          </div>
+        </a>
+        <a href="https://github.com/Nikhilbaratam" target="_blank" style="text-decoration:none;display:block;">
+          <div class="contact-card-pro reveal reveal-delay-2" style="border-top:2px solid var(--sage);">
+            <div class="contact-icon-wrap" style="background:rgba(110,231,183,0.1);border:1px solid rgba(110,231,183,0.22);">⭐</div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:var(--sage);margin-bottom:0.4rem;">GitHub</div>
+            <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">github.com/Nikhilbaratam</div>
+          </div>
+        </a>
+        <a href="tel:+918688523829" style="text-decoration:none;display:block;">
+          <div class="contact-card-pro reveal reveal-delay-3" style="border-top:2px solid var(--plum);">
+            <div class="contact-icon-wrap" style="background:rgba(232,121,249,0.1);border:1px solid rgba(232,121,249,0.22);">📱</div>
+            <div style="font-family:'Fira Code',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:var(--plum);margin-bottom:0.4rem;">Mobile</div>
+            <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.4;">+91 86885 23829</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="grad-divider"></div>
+      <div class="section-eyebrow">Send a Message</div>
+      <div class="section-title" style="font-size:2rem;">Direct Message</div>
+
+      <!-- Form wider, availability card below -->
+      <form class="form-card reveal" id="contact_form" style="max-width:680px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div><label
